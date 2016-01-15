@@ -32,13 +32,13 @@
     </define>
     <verbose-stacktraces>true</verbose-stacktraces>
     <source-path append="true">
-      <path-element>C:\Users\Hiccup\Projects\Programming\Actionscript\Current\3D Rendering\src</path-element>
-      <path-element>C:\Users\Hiccup\AppData\Local\FlashDevelop\Library</path-element>
+      <path-element>C:\Users\Kristian Welsh\Documents\Projects\Programming\ActionScript\Engine\src</path-element>
+      <path-element>C:\Users\Kristian Welsh\AppData\Local\FlashDevelop\Library</path-element>
       <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
   </compiler>
   <file-specs>
-    <path-element>C:\Users\Hiccup\Projects\Programming\Actionscript\Current\3D Rendering\src\Main.as</path-element>
+    <path-element>C:\Users\Kristian Welsh\Documents\Projects\Programming\ActionScript\Engine\src\Main.as</path-element>
   </file-specs>
   <default-background-color>#FFFFFF</default-background-color>
   <default-frame-rate>30</default-frame-rate>

@@ -4,6 +4,10 @@ package {
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.geom.Point;
+	import geom.math.Edge;
+	import geom.math.Tri;
+	import geom.math.Vertex;
+	import geom.shapes.Cube;
 	import geom.shapes.CubeInfo;
 	import geom.transform.Transformations;
 	import geom.transform.TransformData;
@@ -15,9 +19,13 @@ package {
 		private var image:Image;
 		
 		private var cubeInfo:CubeInfo = new CubeInfo();
-		private var screenTransform:TransformData = new TransformData(300, 300, 100, 100, 20);
+		private var screenTransform:TransformData = new TransformData(300, 300, 0, 100, 100, 1, 0, 0, 20);
+		private var cube:Cube;
 		
 		public function Main() {
+			var foor:Vector.<Number> = new Vector.<Number>();
+			foor.push(123);
+			puts(foor[0]);
 			if (stage) init();
 			else
 				addEventListener(Event.ADDED_TO_STAGE, init);
@@ -25,41 +33,20 @@ package {
 		
 		private function init(e:Event = null):void {
 			initImage();
-			drawCube();
+			cube = new Cube(cubeInfo);
+			drawCubeFaces();
 		}
 		
 		private function initImage():void {
 			image = new Image(SIZE, SIZE, stage);
 		}
 		
-		private function drawCube():void {
-			//drawCubeLines();
-			//drawCubePoints();
-			drawCubeFaces();
-		}
-		
-		private function drawCubePoints():void {
-			for (var i:uint = 0; i < cubeInfo.points.length; i++)
-				drawCubePoint(i);
-		}
-		
-		private function drawCubePoint(cubePoint:uint):void {
-			var point:Point = new Point(cubeInfo.points[cubePoint][0], cubeInfo.points[cubePoint][1]);
-			point = geom.transform.Transformations.transform2DPoint(point, screenTransform);
-			image.drawWhite(point);
-		}
-		
-		private function drawCubeLines():void {
-			for (var i:uint = 0; i < cubeInfo.lines.length; i++)
-				drawCubeLine(i);
-		}
-		
-		private function drawCubeLine(cubeLine:uint):void {
+		private function drawCubeLine(cubeLine:Edge):void {
 			// get 2D projected points to draw line between
-			var startPointValues:Array = cubeInfo.points[cubeInfo.lines[cubeLine][0]];
-			var endPointValues:Array = cubeInfo.points[cubeInfo.lines[cubeLine][1]];
-			var startPoint:Point = Transformations.transform2DPoint(new Point(startPointValues[0], startPointValues[1]), screenTransform);
-			var endPoint:Point = Transformations.transform2DPoint(new Point(endPointValues[0], endPointValues[1]), screenTransform);
+			var startVertex:Vertex = Transformations.applyTransformToVertex(cubeLine.getStart(), screenTransform);
+			var endVertex:Vertex = Transformations.applyTransformToVertex(cubeLine.getEnd(), screenTransform);
+			var startPoint:Point = new Point(startVertex.getX(), startVertex.getY());
+			var endPoint:Point = new Point(endVertex.getX(), endVertex.getY());
 			
 			// draw line in viewport
 			var diffX:Number = endPoint.x - startPoint.x;
@@ -78,32 +65,19 @@ package {
 		}
 		
 		private function drawCubeFace(cubeFace:uint):void {
-			var points:Array = [];
-			var face:Array = cubeInfo.faces[cubeFace];
+			var points:Vector.<Vertex> = new Vector.<Vertex>();
+			var points2D:Vector.<Point> = new Vector.<Point>();
+			var face:Tri = cube.getFaceAt(cubeFace);
 			
-			points = getFacePoints(face);
-			points = pointsTo2DPoints(points);
-			points = Transformations.transform2DPoints(points, screenTransform);
+			points = face.getVerteces();
+			points = Transformations.applyTransformToVerteces(points, screenTransform);
+			points2D = pointsTo2DPoints(points);
 			
 			// draw face by drawing all 3 lines then flood-filling inside it doesn't realy work, replace with triple simultaneous inequalities.
-			drawCubeLine(face[0]);
-			drawCubeLine(face[1]);
-			drawCubeLine(face[2]);
-			image.floodfill(averageOfPoints(points), Colours.BLUE);
-		}
-		
-		private function getFacePoints(face:Array):Array {
-			var points:Array = [];
-			var curPoint:Array;
-			
-			for (var i:uint = 0; i < 3; i++) {
-				for (var j:uint = 0; j < 2; j++) {
-					curPoint = getCubePoint(getCubeLine(face[i])[j]);
-					if (!arrayContains3DPoint(points, curPoint))
-						points.push(curPoint);
-				}
-			}
-			return points;
+			drawCubeLine(face.getEdgeAt(0));
+			drawCubeLine(face.getEdgeAt(1));
+			drawCubeLine(face.getEdgeAt(2));
+			image.floodfill(averageOfPoints(points2D), Colours.BLUE);
 		}
 		
 		private function arrayContains3DPoint(array:Array, point:Array):Boolean {
@@ -137,15 +111,15 @@ package {
 		}
 		
 		// takes an array of 3D points, and returns an array of geom.Point, This is cast orthogonally.
-		private function pointsTo2DPoints(points:Array):Array {
-			var points2D:Array = [];
+		private function pointsTo2DPoints(points:Vector.<Vertex>):Vector.<Point> {
+			var points2D:Vector.<Point> = new Vector.<Point>();
 			for (var i:uint = 0; i < points.length; i++)
-				points[i] = new Point(points[i][0], points[i][1])
-			return points;
+				points2D[i] = new Point(points[i].getX(), points[i].getY())
+			return points2D;
 		}
 		
 		// finds the arithmatic mean point of all 2Dpoints in array points
-		private function averageOfPoints(points:Array):Point {
+		private function averageOfPoints(points:Vector.<Point>):Point {
 			var averagePoint:Point = new Point();
 			var curPoint:Point;
 			for (var i:uint = 0; i < points.length; i++) {

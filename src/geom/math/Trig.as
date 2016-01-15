@@ -12,16 +12,28 @@ package geom.math {
 		}
 		
 		// result in radians
-		static public function cartesianToPolar(point:Point):PolarPoint {
-			var r:Number = Math.sqrt(point.x * point.x + point.y * point.y);
-			var angle:Number = Math.atan(point.y / point.x);
+		static public function cartesianToPolar(point:Vertex):PolarVertex {
+			// use pithagorean axial diagonal length calculation to get length from origin.
+			var r:Number = Math.sqrt(point.getX() * point.getX() + point.getY() * point.getY() + point.getZ() * point.getZ());
 			
-			// some funky math stuff was turning negative x values into positive. Probably an issue with the modularity of atan
+			// use angle = atan(o/a) for each axis
+			var xRotation:Number = Math.atan(point.getY() / point.getZ());
+			var yRotation:Number = Math.atan(point.getZ() / point.getX());
+			var zRotation:Number = Math.atan(point.getY() / point.getX());
+			
+			// some funky math stuff was turning negative x values into positive on zRotation. Probably an issue with the modularity of atan
 			// bit of a hacky work arround and will likely break, but fixes it for now.
-			if (point.x < 0)
-				angle += degToRad(180);
+			if (point.getZ() < 0)
+				xRotation += degToRad(180);
 			
-			return new PolarPoint(r, angle);
+			// i half-guessed the relevent axis for these 2
+			if (point.getX() < 0)
+				yRotation += degToRad(180);
+			
+			if (point.getX() < 0)
+				zRotation += degToRad(180);
+			
+			return new PolarVertex(r, xRotation, yRotation, zRotation);
 		}
 	}
 
