@@ -27,5 +27,11 @@ package geom.math {
 		public function clone():Vertex {
 			return new Vertex(x, y, z);
 		}
+		
+		public function round():void {
+			x = ExtraMath.round(x, 0.0000001);
+			y = ExtraMath.round(y, 0.0000001);
+			y = ExtraMath.round(y, 0.0000001);
+		}
 	}
 }

@@ -14,26 +14,23 @@ package geom.math {
 		// result in radians
 		static public function cartesianToPolar(point:Vertex):PolarVertex {
 			// use pithagorean axial diagonal length calculation to get length from origin.
+			// radial length to point on sphere
 			var r:Number = Math.sqrt(point.getX() * point.getX() + point.getY() * point.getY() + point.getZ() * point.getZ());
 			
-			// use angle = atan(o/a) for each axis
-			var xRotation:Number = Math.atan(point.getY() / point.getZ());
-			var yRotation:Number = Math.atan(point.getZ() / point.getX());
-			var zRotation:Number = Math.atan(point.getY() / point.getX());
+			// find angle to take to 2nd dimention
+			var azimuth:Number = Math.atan(point.getY() / point.getX());
+			// find angle from line given by "azimuth" and h, such that h is the base of new triangle with length r and angle "polar"
+			var polar:Number = Math.acos(point.getZ() / r);
 			
-			// some funky math stuff was turning negative x values into positive on zRotation. Probably an issue with the modularity of atan
+			// some funky math stuff was turning negative x values into positive on zRotation in 2D polar. Probably an issue with the modularity of atan
 			// bit of a hacky work arround and will likely break, but fixes it for now.
+			// i half-guessed the relevent axis for these 2 as i am unused to spherical co-ordinates.
 			if (point.getZ() < 0)
-				xRotation += degToRad(180);
-			
-			// i half-guessed the relevent axis for these 2
+				polar += degToRad(180);
 			if (point.getX() < 0)
-				yRotation += degToRad(180);
+				azimuth += degToRad(180);
 			
-			if (point.getX() < 0)
-				zRotation += degToRad(180);
-			
-			return new PolarVertex(r, xRotation, yRotation, zRotation);
+			return new PolarVertex(r, azimuth, polar);
 		}
 	}
 
