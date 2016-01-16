@@ -1,5 +1,6 @@
 package geom.math {
 	public class PolarVertex {
+		//azimutha and polar are in radians.
 		private var r:Number;
 		private var azimuth:Number;
 		private var polar:Number;

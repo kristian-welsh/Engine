@@ -18,12 +18,12 @@ package geom.transform {
 			
 			this.translateX = translateX;
 			this.translateY = translateY;
-			this.translateY = translateZ;
+			this.translateZ = translateZ;
 			this.scaleX = scaleX;
 			this.scaleY = scaleY;
-			this.scaleX = scaleZ;
-			this.rotationZ = rotationX;
-			this.rotationZ = rotationY;
+			this.scaleZ = scaleZ;
+			this.rotationX = rotationX;
+			this.rotationY = rotationY;
 			this.rotationZ = rotationZ;
 		}
 	}

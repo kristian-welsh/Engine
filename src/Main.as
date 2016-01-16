@@ -19,13 +19,10 @@ package {
 		private var image:Image;
 		
 		private var cubeInfo:CubeInfo = new CubeInfo();
-		private var screenTransform:TransformData = new TransformData(300, 300, 0, 100, 100, 1, 0, 0, 20);
+		private var screenTransform:TransformData = new TransformData(300, 300, 0, 100, 100, 1, 360, 0, 45);
 		private var cube:Cube;
 		
 		public function Main() {
-			var foor:Vector.<Number> = new Vector.<Number>();
-			foor.push(123);
-			puts(foor[0]);
 			if (stage) init();
 			else
 				addEventListener(Event.ADDED_TO_STAGE, init);
@@ -64,6 +61,7 @@ package {
 				drawCubeFace(i);
 		}
 		
+		// one of the faces isn't filling, but this system is being replaced soon, so i don't care.
 		private function drawCubeFace(cubeFace:uint):void {
 			var points:Vector.<Vertex> = new Vector.<Vertex>();
 			var points2D:Vector.<Point> = new Vector.<Point>();
