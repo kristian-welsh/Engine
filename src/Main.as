@@ -3,7 +3,10 @@ package {
 	import drawing.Image;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.TimerEvent;
 	import flash.geom.Point;
+	import flash.text.TextField;
+	import flash.utils.Timer;
 	import geom.math.Edge;
 	import geom.math.Tri;
 	import geom.math.Vertex;
@@ -11,6 +14,8 @@ package {
 	import geom.shapes.CubeInfo;
 	import geom.transform.Transformations;
 	import geom.transform.TransformData;
+	import math.Matrix;
+	import org.flashdevelop.utils.FlashConnect;
 	
 	public class Main extends Sprite {
 		
@@ -18,9 +23,13 @@ package {
 		
 		private var image:Image;
 		
+		private var rot:Number = 0;
+		
 		private var cubeInfo:CubeInfo = new CubeInfo();
-		private var screenTransform:TransformData = new TransformData(300, 300, 0, 100, 100, 1, 360, 0, 45);
+		private var screenTransform:TransformData = new TransformData(300, 300, 0, 100, 100, 1, rot, 0, 0);
 		private var cube:Cube;
+		private var timer:Timer = new Timer(100);
+		private var text:TextField;
 		
 		public function Main() {
 			if (stage) init();
@@ -30,8 +39,42 @@ package {
 		
 		private function init(e:Event = null):void {
 			initImage();
+			initDebug();
 			cube = new Cube(cubeInfo);
 			drawCubeFaces();
+			timer.addEventListener(TimerEvent.TIMER, foo);
+			timer.start();
+		}
+		
+		private function printLine(message:String):void {
+			var lines:Array = text.text.split("\r");
+			if (lines.length > 5) {
+				for (var i:uint = 0; i < lines.length - 1; i++) {
+					lines[i] = lines[i+1]
+				}
+				lines.length--;
+				text.text = lines.join("\n");
+			}
+			text.appendText(message + "\n");
+		}
+		
+		private function initDebug():void {
+			text = new TextField();
+			text.textColor = Colours.WHITE;
+			printLine("Debug Init");
+			stage.addChild(text);
+		}
+		
+		private function foo(e:Event):void {
+			rot += 1;
+			printLine("rot: " + rot % 360);
+			screenTransform = new TransformData(300, 300, 0, 100, 100, 1, rot, 0, 0);
+			blackout();
+			drawCubeFaces();
+		}
+		
+		private function blackout():void {
+			image.drawBackground();
 		}
 		
 		private function initImage():void {
@@ -75,7 +118,7 @@ package {
 			drawCubeLine(face.getEdgeAt(0));
 			drawCubeLine(face.getEdgeAt(1));
 			drawCubeLine(face.getEdgeAt(2));
-			image.floodfill(averageOfPoints(points2D), Colours.BLUE);
+			//image.floodfill(averageOfPoints(points2D), Colours.BLUE);
 		}
 		
 		private function arrayContains3DPoint(array:Array, point:Array):Boolean {
