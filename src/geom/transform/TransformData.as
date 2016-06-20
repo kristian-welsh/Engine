@@ -15,7 +15,6 @@ package geom.transform {
 		public function TransformData(translateX:Number = 0, translateY:Number = 0, translateZ:Number = 0,
 				scaleX:Number = 1, scaleY:Number = 1, scaleZ:Number = 1,
 				rotationX:Number = 0, rotationY:Number = 0, rotationZ:Number = 0) {
-			
 			this.translateX = translateX;
 			this.translateY = translateY;
 			this.translateZ = translateZ;

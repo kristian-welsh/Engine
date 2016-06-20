@@ -39,9 +39,9 @@ package math {
 		}
 		
 		private function populate(width:uint, height:uint, value:Number):void {
-			for (var i:uint = 0; i < width; i++) {
+			for (var i:uint = 0; i < height; i++) {
 				data.push([]);
-				for (var j:uint = 0; j < height; j++) {
+				for (var j:uint = 0; j < width; j++) {
 					data[i].push(value);
 				}
 			}
@@ -64,7 +64,7 @@ package math {
 				if (args[i].length != width)
 					return false;
 				for (var j:uint = 0; j < args[i].length; j++)
-					if (args[i][j] === null || args[i][j] === undefined || args[i][j] === Number.NaN || !isNum(args[i][j]))
+					if (args[i][j] === null || args[i][j] === undefined || !isNum(args[i][j]))
 						return false;
 			}
 			return true;
@@ -98,17 +98,17 @@ package math {
 			return newData;
 		}
 		
-		public function dot(arg:Matrix):Matrix {
+		public function dot(arg:Matrix, foo:Boolean = false):Matrix {
 			if(width() != arg.height())
 				incompatableDimentions(arg);
-			var newData:Matrix = new Matrix(arg.width(), height());
+			var newData:Matrix = new Matrix(arg.width(), arg.height());
 			for (var i:uint = 0; i < arg.width(); i++) {
 				for (var j:uint = 0; j < height(); j++) {
 					var tempSum:Number = 0;
 					for (var k:uint = 0; k < width(); k++) {
 						tempSum += getCell(j, k) * arg.getCell(k, i);
 					}
-					newData.updateCell(i, j, tempSum);
+					newData.updateCell(j, i, tempSum);
 				}
 			}
 			return newData;

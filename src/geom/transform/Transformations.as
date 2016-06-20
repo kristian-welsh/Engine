@@ -4,6 +4,7 @@ package geom.transform {
 	import geom.math.PolarVertex;
 	import geom.math.Trig;
 	import geom.math.Vertex;
+	import org.flashdevelop.utils.FlashConnect;
 	
 	public class Transformations {
 		
@@ -16,32 +17,29 @@ package geom.transform {
 		
 		static public function applyTransformToVertex(vertex:Vertex, transformationData:TransformData):Vertex {
 			var returnedPoint:Vertex = vertex.clone();
-			returnedPoint = Transformations.rotate(returnedPoint, transformationData.rotationZ, transformationData.rotationX);
+			returnedPoint = Transformations.rotate(returnedPoint, transformationData.rotationX, transformationData.rotationY, transformationData.rotationZ);
 			returnedPoint = Transformations.scale(returnedPoint, transformationData.scaleX, transformationData.scaleY, transformationData.scaleZ);
 			returnedPoint = Transformations.translate(returnedPoint, transformationData.translateX, transformationData.translateY, transformationData.translateZ);
 			return returnedPoint;
 		}
 		
 		// angle is +- degrees, only z rotation implemented. xy does something but i don't know. also xy is currently using rotationX from TData.
-		static public function rotate(point:Vertex, zRotation:Number, xyRotation:Number = 0):Vertex {
-			var rotated:Vertex;
-			var polar:PolarVertex = point.toCartesian();
-			
-			polar.increaseAzimuth(Trig.degToRad(zRotation));
-			polar.increasePolar(Trig.degToRad(xyRotation));
-			
-			rotated = polar.toCartesian();
-			rotated.round();
-			
-			return rotated;
+		static public function rotate(vertex:Vertex, xRotation:Number, yRotation:Number, zRotation:Number):Vertex {
+			var returnMe:Vertex = vertex.clone();
+			returnMe.transform.rotate(xRotation, yRotation, zRotation);
+			return returnMe;
 		}
 		
 		static public function scale(vertex:Vertex, scaleX:Number, scaleY:Number, scaleZ:Number):Vertex {
-			return new Vertex(vertex.getX() * scaleX, vertex.getY() * scaleY, vertex.getZ() * scaleZ);
+			var returnMe:Vertex = vertex.clone();
+			returnMe.transform.scale(scaleX, scaleY, scaleZ);
+			return returnMe;
 		}
 		
 		static public function translate(vertex:Vertex, translateX:Number, translateY:Number, translateZ:Number):Vertex {
-			return new Vertex(vertex.getX() + translateX, vertex.getY() + translateY, vertex.getZ() + translateZ);
+			var returnMe:Vertex = vertex.clone();
+			returnMe.transform.translate(translateX, translateY, translateZ);
+			return returnMe;
 		}
 	}
 }

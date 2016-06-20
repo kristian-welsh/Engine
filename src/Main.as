@@ -26,7 +26,7 @@ package {
 		private var rot:Number = 0;
 		
 		private var cubeInfo:CubeInfo = new CubeInfo();
-		private var screenTransform:TransformData = new TransformData(300, 300, 0, 100, 100, 1, rot, 0, 0);
+		private var screenTransform:TransformData = new TransformData(300, 300, 0, 100, 100, 1, 0, 0, 0);
 		private var cube:Cube;
 		private var timer:Timer = new Timer(100);
 		private var text:TextField;
@@ -66,9 +66,9 @@ package {
 		}
 		
 		private function foo(e:Event):void {
-			rot += 1;
+			rot += 0.25;
 			printLine("rot: " + rot % 360);
-			screenTransform = new TransformData(300, 300, 0, 100, 100, 1, rot, 0, 0);
+			screenTransform = new TransformData(300, 300, 0, 100, 100, 100, rot, rot/2, rot/4);
 			blackout();
 			drawCubeFaces();
 		}
