@@ -3,14 +3,12 @@ package geom.shapes {
 	import geom.math.Tri;
 	import geom.math.Vertex;
 	
-	public class Cube {
-		public var info:CubeInfo;
+	public class Shape {
 		private var points:Vector.<Vertex> = new Vector.<Vertex>();
 		private var edges:Vector.<Edge> = new Vector.<Edge>();
 		private var faces:Vector.<Tri> = new Vector.<Tri>();
 		
-		public function Cube(info:CubeInfo) {
-			this.info = info;
+		public function Shape(info:CubeInfo) {
 			for each (var point:Array in info.points) {
 				points.push(new Vertex(point[0], point[1], point[2]));
 			}
@@ -34,16 +32,8 @@ package geom.shapes {
 			return faces.length;
 		}
 		
-		public function getVertexAt(index:uint):Vertex {
-			return points[index];
-		}
-		
-		public function getEdgeAt(index:uint):Edge {
-			return edges[index];
-		}
-		
-		public function getFaceAt(index:uint):Tri {
-			return faces[index];
+		public function getFaceAt(faceIndex:uint):Tri {
+			return faces[faceIndex];
 		}
 	}
 }
