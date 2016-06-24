@@ -20,9 +20,11 @@ package {
 		
 		private var image:Image;
 		private var cubeTransform:TransformData;
+		private var change:TransformData;
 		private var cube:Shape = new Shape(new CubeData());
 		private var timer:Timer = new Timer(100);
-		private var rot:Number = 0;
+		private var rot:Number = 2*Math.PI/50;
+		private var totalRot:Number = 0;
 		private var projector:Projector = new OrthographicProjector();
 		
 		public function Main() {
@@ -35,14 +37,19 @@ package {
 		private function init(e:Event = null):void {
 			image = new Image(SIZE, SIZE, stage);
 			Console.init(stage);
+			
+			cubeTransform = new TransformData(300, 300, 0, 100, 100, 100, 0, 0, 0);
+			cube.transform(cubeTransform);
+			
 			timer.addEventListener(TimerEvent.TIMER, tick);
 			timer.start();
 		}
 		
 		private function tick(e:Event):void {
-			cubeTransform = new TransformData(300, 300, 0, 100, 100, 100, rot, rot / 16, 0);
-			Console.printLine("rot: " + rot % 360);
-			rot += 0.25;
+			change = new TransformData(0, 0, 0, 1.01, 1, 1, 0, 0, rot);
+			cube.transform(change);
+			totalRot += rot
+			Console.printLine("rot: " + totalRot % 360);
 			image.drawBackground();
 			draw();
 		}
@@ -62,10 +69,8 @@ package {
 		}
 		
 		private function drawEdge(edge:Edge):void {
-			var startVertex:Vertex = Transformations.applyTransformToVertex(edge.getStart(), cubeTransform);
-			var endVertex:Vertex = Transformations.applyTransformToVertex(edge.getEnd(), cubeTransform);
-			var startPoint:Point = projector.cast(startVertex);
-			var endPoint:Point = projector.cast(endVertex);
+			var startPoint:Point = projector.cast(edge.getStart());
+			var endPoint:Point = projector.cast(edge.getEnd());
 			image.drawLine(startPoint, endPoint);
 		}
 	}

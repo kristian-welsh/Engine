@@ -8,38 +8,28 @@ package geom.transform {
 	
 	public class Transformations {
 		
-		static public function applyTransformToVerteces(points:Vector.<Vertex>, transformationData:TransformData):Vector.<Vertex> {
-			var finishedPoints:Vector.<Vertex> = new Vector.<Vertex>();
+		static public function applyTransformToVerteces(points:Vector.<Vertex>, transformationData:TransformData):void {
 			for (var i:uint = 0; i < points.length; i++)
-				finishedPoints.push(applyTransformToVertex(points[i], transformationData));
-			return finishedPoints;
+				applyTransformToVertex(points[i], transformationData);
 		}
 		
-		static public function applyTransformToVertex(vertex:Vertex, transformationData:TransformData):Vertex {
-			var returnedPoint:Vertex = vertex.clone();
-			returnedPoint = Transformations.rotate(returnedPoint, transformationData.rotationX, transformationData.rotationY, transformationData.rotationZ);
-			returnedPoint = Transformations.scale(returnedPoint, transformationData.scaleX, transformationData.scaleY, transformationData.scaleZ);
-			returnedPoint = Transformations.translate(returnedPoint, transformationData.translateX, transformationData.translateY, transformationData.translateZ);
-			return returnedPoint;
+		static public function applyTransformToVertex(vertex:Vertex, transformationData:TransformData):void {
+			Transformations.rotate(vertex, transformationData.rotationX, transformationData.rotationY, transformationData.rotationZ);
+			Transformations.scale(vertex, transformationData.scaleX, transformationData.scaleY, transformationData.scaleZ);
+			Transformations.translate(vertex, transformationData.translateX, transformationData.translateY, transformationData.translateZ);
 		}
 		
 		// angle is +- degrees, only z rotation implemented. xy does something but i don't know. also xy is currently using rotationX from TData.
-		static public function rotate(vertex:Vertex, xRotation:Number, yRotation:Number, zRotation:Number):Vertex {
-			var returnMe:Vertex = vertex.clone();
-			returnMe.transform.rotate(xRotation, yRotation, zRotation);
-			return returnMe;
+		static public function rotate(vertex:Vertex, xRotation:Number, yRotation:Number, zRotation:Number):void {
+			vertex.transform.rotate(xRotation, yRotation, zRotation);
 		}
 		
-		static public function scale(vertex:Vertex, scaleX:Number, scaleY:Number, scaleZ:Number):Vertex {
-			var returnMe:Vertex = vertex.clone();
-			returnMe.transform.scale(scaleX, scaleY, scaleZ);
-			return returnMe;
+		static public function scale(vertex:Vertex, scaleX:Number, scaleY:Number, scaleZ:Number):void {
+			vertex.transform.scale(scaleX, scaleY, scaleZ);
 		}
 		
-		static public function translate(vertex:Vertex, translateX:Number, translateY:Number, translateZ:Number):Vertex {
-			var returnMe:Vertex = vertex.clone();
-			returnMe.transform.translate(translateX, translateY, translateZ);
-			return returnMe;
+		static public function translate(vertex:Vertex, translateX:Number, translateY:Number, translateZ:Number):void {
+			vertex.transform.translate(translateX, translateY, translateZ);
 		}
 	}
 }

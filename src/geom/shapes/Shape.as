@@ -2,6 +2,8 @@ package geom.shapes {
 	import geom.math.Edge;
 	import geom.math.Tri;
 	import geom.math.Vertex;
+	import geom.transform.Transformations;
+	import geom.transform.TransformData;
 
 	public class Shape {
 		protected var points:Vector.<Vertex> = new Vector.<Vertex>();
@@ -26,6 +28,10 @@ package geom.shapes {
 		
 		public function getFaceAt(index:uint):Tri {
 			return faces[index];
+		}
+		
+		public function transform(data:TransformData):void {
+			Transformations.applyTransformToVerteces(points, data);
 		}
 	}
 }
