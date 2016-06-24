@@ -22,29 +22,23 @@ package drawing {
 		}
 		
 		public function drawBackground():void {
-			for (var p:int = 0; p < width * height; p++) {
+			for (var p:int = 0; p < width * height; p++)
 				setPixel(new Point(p % width, p / width), backgroundColour);
-			}
 		}
 		
-		public function drawWhite(point:Point):void {
+		public function drawPoint(point:Point):void {
 			setPixel(point, Colours.WHITE);
 		}
 		
-		public function drawRed(point:Point):void {
-			setPixel(point, Colours.RED);
-		}
-		
-		public function drawGreen(point:Point):void {
-			setPixel(point, Colours.GREEN);
-		}
-		
-		public function drawBlue(point:Point):void {
-			setPixel(point, Colours.BLUE);
-		}
-		
-		public function floodfill(point:Point, colour:uint):void {
-			bitmapData.floodFill(point.x, point.y, colour);
+		public function drawLine(start:Point, end:Point):void {
+			var diffX:Number = end.x - start.x;
+			var diffY:Number = end.y - start.y;
+			var stepSize:uint = Math.max(Math.abs(diffX), Math.abs(diffY)) + 1;
+			var curPoint:Point;
+			for (var i:uint = 0; i <= stepSize; i++) {
+				curPoint = new Point(start.x + diffX * i / stepSize, start.y + diffY * i / stepSize);
+				drawPoint(curPoint)
+			}
 		}
 		
 		private function setPixel(point:Point, colour:uint):void {

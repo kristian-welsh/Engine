@@ -8,8 +8,10 @@ package {
 	import geom.math.Edge;
 	import geom.math.Tri;
 	import geom.math.Vertex;
-	import geom.shapes.Cube;
-	import geom.shapes.CubeInfo;
+	import geom.projector.OrthographicProjector;
+	import geom.projector.Projector;
+	import geom.shapes.CubeData;
+	import geom.shapes.Shape;
 	import geom.transform.Transformations;
 	import geom.transform.TransformData;
 	
@@ -18,10 +20,10 @@ package {
 		
 		private var image:Image;
 		private var cubeTransform:TransformData;
-		private var cubeInfo:CubeInfo = new CubeInfo();
-		private var cube:Cube = new Cube(cubeInfo);
+		private var cube:Shape = new Shape(new CubeData());
 		private var timer:Timer = new Timer(100);
 		private var rot:Number = 0;
+		private var projector:Projector = new OrthographicProjector();
 		
 		public function Main() {
 			if (stage)
@@ -42,42 +44,29 @@ package {
 			Console.printLine("rot: " + rot % 360);
 			rot += 0.25;
 			image.drawBackground();
-			drawCubeFaces();
+			draw();
 		}
 		
-		private function drawCubeFaces():void {
-			for (var i:uint = 0; i < cubeInfo.faces.length; i++)
-				drawCubeFace(i);
+		private function draw():void {
+			for (var i:uint = 0; i < cube.numFaces(); i++)
+				drawFace(i);
 		}
 		
-		// currently draws all tri lines
-		private function drawCubeFace(cubeFace:uint):void {
+		private function drawFace(cubeFace:uint):void {
 			var points:Vector.<Vertex> = new Vector.<Vertex>();
 			var face:Tri = cube.getFaceAt(cubeFace);
 			
-			points = Transformations.applyTransformToVerteces(face.getVerteces(), cubeTransform);
-			
-			drawCubeLine(face.getEdgeAt(0));
-			drawCubeLine(face.getEdgeAt(1));
-			drawCubeLine(face.getEdgeAt(2));
+			drawEdge(face.getEdgeAt(0));
+			drawEdge(face.getEdgeAt(1));
+			drawEdge(face.getEdgeAt(2));
 		}
 		
-		private function drawCubeLine(cubeLine:Edge):void {
-			// get 2D projected points to draw line between
-			var startVertex:Vertex = Transformations.applyTransformToVertex(cubeLine.getStart(), cubeTransform);
-			var endVertex:Vertex = Transformations.applyTransformToVertex(cubeLine.getEnd(), cubeTransform);
-			var startPoint:Point = new Point(startVertex.getX(), startVertex.getY());
-			var endPoint:Point = new Point(endVertex.getX(), endVertex.getY());
-			
-			// draw line in viewport
-			var diffX:Number = endPoint.x - startPoint.x;
-			var diffY:Number = endPoint.y - startPoint.y;
-			var stepSize:uint = Math.max(Math.abs(diffX), Math.abs(diffY)) + 1;
-			var curPoint:Point;
-			for (var i:uint = 0; i <= stepSize; i++) {
-				curPoint = new Point(startPoint.x + diffX * i / stepSize, startPoint.y + diffY * i / stepSize);
-				image.drawRed(curPoint);
-			}
+		private function drawEdge(edge:Edge):void {
+			var startVertex:Vertex = Transformations.applyTransformToVertex(edge.getStart(), cubeTransform);
+			var endVertex:Vertex = Transformations.applyTransformToVertex(edge.getEnd(), cubeTransform);
+			var startPoint:Point = projector.cast(startVertex);
+			var endPoint:Point = projector.cast(endVertex);
+			image.drawLine(startPoint, endPoint);
 		}
 	}
 }
