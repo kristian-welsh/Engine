@@ -2,18 +2,19 @@ package geom.shapes {
 	import geom.math.Edge;
 	import geom.math.Tri;
 	import geom.math.Vertex;
-	import geom.transform.Transformations;
+	import geom.transform.Transform;
 	import geom.transform.TransformData;
-
+	
 	public class Shape {
 		protected var points:Vector.<Vertex> = new Vector.<Vertex>();
 		protected var edges:Vector.<Edge> = new Vector.<Edge>();
 		protected var faces:Vector.<Tri> = new Vector.<Tri>();
+		private var pos:Transform = new Transform(0, 0, 0);
 		
 		/// only to be called from inheriting class's super
 		public function Shape(data:ShapeData) {
 			for each (var point:Array in data.points)
-				points.push(new Vertex(point[0], point[1], point[2]));
+				points.push(new Vertex(point[0], point[1], point[2], pos));
 			
 			for each (var line:Array in data.lines)
 				edges.push(new Edge(points[line[0]], points[line[1]]));
@@ -31,7 +32,7 @@ package geom.shapes {
 		}
 		
 		public function transform(data:TransformData):void {
-			Transformations.applyTransformToVerteces(points, data);
+			pos.applyTransform(data)
 		}
 	}
 }

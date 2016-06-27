@@ -7,9 +7,9 @@ package geom.transform {
 		public var scaleX:Number;
 		public var scaleY:Number;
 		public var scaleZ:Number;
-		public var rotationX:Number;
-		public var rotationY:Number;
-		public var rotationZ:Number;
+		public var rotateX:Number;
+		public var rotateY:Number;
+		public var rotateZ:Number;
 		
 		// probably getting a bit unweildly.
 		public function TransformData(translateX:Number = 0, translateY:Number = 0, translateZ:Number = 0,
@@ -21,9 +21,9 @@ package geom.transform {
 			this.scaleX = scaleX;
 			this.scaleY = scaleY;
 			this.scaleZ = scaleZ;
-			this.rotationX = rotationX;
-			this.rotationY = rotationY;
-			this.rotationZ = rotationZ;
+			this.rotateX = rotationX;
+			this.rotateY = rotationY;
+			this.rotateZ = rotationZ;
 		}
 	}
 }

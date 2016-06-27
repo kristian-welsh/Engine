@@ -2,7 +2,6 @@ package math {
 	
 	// TODO: testing
 	// TODO: custom errors
-	// I think this is all correct, not positive.
 	public class Matrix {
 		private var data:Array = [];
 		
@@ -11,6 +10,13 @@ package math {
 			for (var i:uint = 0; i < width; i++) {
 				returnMe.updateCell(i, i, 1);
 			}
+			return returnMe;
+		}
+		
+		static public function perspective():Matrix {
+			var returnMe:Matrix = Matrix.identity(4);
+			returnMe.updateCell(3, 3, 0);
+			returnMe.updateCell(3, 2, -1);
 			return returnMe;
 		}
 		
@@ -98,7 +104,7 @@ package math {
 			return newData;
 		}
 		
-		public function dot(arg:Matrix, foo:Boolean = false):Matrix {
+		public function dot(arg:Matrix):Matrix {
 			if(width() != arg.height())
 				incompatableDimentions(arg);
 			var newData:Matrix = new Matrix(arg.width(), arg.height());
@@ -114,11 +120,29 @@ package math {
 			return newData;
 		}
 		
+		public function multiply(arg:Matrix):Matrix {
+			if(!sameDimentions(arg))
+				incompatableDimentions(arg);
+			var newData:Matrix = new Matrix(width(), height());
+			for (var i:uint = 0; i < height(); i++)
+				for (var j:uint = 0; j < width(); j++)
+					newData.updateCell(i, j, getCell(i, j) * arg.getCell(i, j));
+			return newData;
+		}
+		
 		public function scale(arg:Number):Matrix {
 			var newData:Matrix = new Matrix(width(), height());
 			for (var i:uint = 0; i < height(); i++)
 				for (var j:uint = 0; j < width(); j++)
 					newData.updateCell(i, j, getCell(i, j) * arg);
+			return newData;
+		}
+		
+		public function transpose():Matrix {
+			var newData:Matrix = new Matrix(height(), width());
+			for (var i:uint = 0; i < height(); i++)
+				for (var j:uint = 0; j < width(); j++)
+					newData.updateCell(j, i, getCell(i, j));
 			return newData;
 		}
 		
@@ -130,8 +154,8 @@ package math {
 			throw new Error("Incompatable matrix dimentions. Matrix 1: " + this + "Matrix 2: " + arg);
 		}
 		
-		public function updateCell(i:int, j:int, value:Number):void {
-			data[i][j] = value;
+		public function updateCell(y:int, x:int, value:Number):void {
+			data[y][x] = value;
 		}
 		
 		public function getCell(i:int, j:int):Number {

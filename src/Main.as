@@ -12,19 +12,16 @@ package {
 	import geom.projector.Projector;
 	import geom.shapes.CubeData;
 	import geom.shapes.Shape;
-	import geom.transform.Transformations;
 	import geom.transform.TransformData;
 	
 	public class Main extends Sprite {
 		static private const SIZE:uint = 1000;
 		
 		private var image:Image;
-		private var cubeTransform:TransformData;
-		private var change:TransformData;
+		private var cubeTransform:TransformData = new TransformData(300, 300, 0, 100, 100, 100, 0, 0, 0);
+		private var change:TransformData = new TransformData(5, 10, 0, 1, 1.05, 1, 0, 2, 0);
 		private var cube:Shape = new Shape(new CubeData());
 		private var timer:Timer = new Timer(100);
-		private var rot:Number = 2*Math.PI/50;
-		private var totalRot:Number = 0;
 		private var projector:Projector = new OrthographicProjector();
 		
 		public function Main() {
@@ -37,19 +34,13 @@ package {
 		private function init(e:Event = null):void {
 			image = new Image(SIZE, SIZE, stage);
 			Console.init(stage);
-			
-			cubeTransform = new TransformData(300, 300, 0, 100, 100, 100, 0, 0, 0);
 			cube.transform(cubeTransform);
-			
 			timer.addEventListener(TimerEvent.TIMER, tick);
 			timer.start();
 		}
 		
 		private function tick(e:Event):void {
-			change = new TransformData(0, 0, 0, 1.01, 1, 1, 0, 0, rot);
 			cube.transform(change);
-			totalRot += rot
-			Console.printLine("rot: " + totalRot % 360);
 			image.drawBackground();
 			draw();
 		}
