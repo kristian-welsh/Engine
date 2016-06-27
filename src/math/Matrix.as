@@ -35,7 +35,7 @@ package math {
 				else
 					invalidMatrix(args[0]);
 			} else if (isData(args)) {
-				if(isValidData(args))
+				if (isValidData(args))
 					data = args;
 				else
 					invalidMatrix(args);
@@ -56,7 +56,7 @@ package math {
 		private function isData(args:Array):Boolean {
 			for (var i:uint = 0; i < args.length; i++) {
 				if (!(args[i] is Array))
-						return false;
+					return false;
 				for (var j:uint = 0; j < args[i].length; j++)
 					if (args[i][j] is Array)
 						return false;
@@ -85,7 +85,7 @@ package math {
 		}
 		
 		public function add(arg:Matrix):Matrix {
-			if(!sameDimentions(arg))
+			if (!sameDimentions(arg))
 				incompatableDimentions(arg);
 			var newData:Matrix = new Matrix(width(), height());
 			for (var i:uint = 0; i < height(); i++)
@@ -95,7 +95,7 @@ package math {
 		}
 		
 		public function subtract(arg:Matrix):Matrix {
-			if(!sameDimentions(arg))
+			if (!sameDimentions(arg))
 				incompatableDimentions(arg);
 			var newData:Matrix = new Matrix(width(), height());
 			for (var i:uint = 0; i < height(); i++)
@@ -105,7 +105,7 @@ package math {
 		}
 		
 		public function dot(arg:Matrix):Matrix {
-			if(width() != arg.height())
+			if (width() != arg.height())
 				incompatableDimentions(arg);
 			var newData:Matrix = new Matrix(arg.width(), arg.height());
 			for (var i:uint = 0; i < arg.width(); i++) {
@@ -121,7 +121,7 @@ package math {
 		}
 		
 		public function multiply(arg:Matrix):Matrix {
-			if(!sameDimentions(arg))
+			if (!sameDimentions(arg))
 				incompatableDimentions(arg);
 			var newData:Matrix = new Matrix(width(), height());
 			for (var i:uint = 0; i < height(); i++)
@@ -158,8 +158,8 @@ package math {
 			data[y][x] = value;
 		}
 		
-		public function getCell(i:int, j:int):Number {
-			return data[i][j];
+		public function getCell(y:int, x:int):Number {
+			return data[y][x];
 		}
 		
 		public function width():uint {

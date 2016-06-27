@@ -3,6 +3,11 @@ package drawing {
 	import flash.display.BitmapData;
 	import flash.display.DisplayObjectContainer;
 	import flash.geom.Point;
+	import geom.data.Edge;
+	import geom.data.Face;
+	import geom.data.Vertex;
+	import geom.projector.Projector;
+	import geom.shapes.Shape;
 	
 	public class Image {
 		private var width:Number = 0;
@@ -11,10 +16,12 @@ package drawing {
 		private var backgroundColour:Number = Colours.BLACK;
 		private var bitmap:Bitmap;
 		private var bitmapData:BitmapData;
+		private var projector:Projector;
 		
-		public function Image(width:uint, height:uint, container:DisplayObjectContainer) {
+		public function Image(width:uint, height:uint, container:DisplayObjectContainer, projector:Projector) {
 			this.width = width;
 			this.height = height;
+			this.projector = projector;
 			
 			bitmapData = new BitmapData(width, height, true, Colours.BLACK);
 			bitmap = new Bitmap(bitmapData);
@@ -26,8 +33,24 @@ package drawing {
 				setPixel(new Point(p % width, p / width), backgroundColour);
 		}
 		
-		public function drawPoint(point:Point):void {
-			setPixel(point, Colours.WHITE);
+		public function draw(shape:Shape):void {
+			for (var i:uint = 0; i < shape.numFaces(); i++)
+				drawFace(shape, i);
+		}
+		
+		private function drawFace(shape:Shape, faceIndex:uint):void {
+			var points:Vector.<Vertex> = new Vector.<Vertex>();
+			var face:Face = shape.getFaceAt(faceIndex);
+			
+			drawEdge(face.getEdgeAt(0));
+			drawEdge(face.getEdgeAt(1));
+			drawEdge(face.getEdgeAt(2));
+		}
+		
+		private function drawEdge(edge:Edge):void {
+			var startPoint:Point = projector.cast(edge.getStart());
+			var endPoint:Point = projector.cast(edge.getEnd());
+			drawLine(startPoint, endPoint);
 		}
 		
 		public function drawLine(start:Point, end:Point):void {
@@ -39,6 +62,10 @@ package drawing {
 				curPoint = new Point(start.x + diffX * i / stepSize, start.y + diffY * i / stepSize);
 				drawPoint(curPoint)
 			}
+		}
+		
+		public function drawPoint(point:Point):void {
+			setPixel(point, Colours.WHITE);
 		}
 		
 		private function setPixel(point:Point, colour:uint):void {

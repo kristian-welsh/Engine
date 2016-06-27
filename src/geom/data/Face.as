@@ -1,8 +1,8 @@
-package geom.math {
-	public class Tri {
+package geom.data {
+	public class Face {
 		private var edges:Vector.<Edge> = new Vector.<Edge>();
 		
-		public function Tri(edge1:Edge, edge2:Edge, edge3:Edge) {
+		public function Face(edge1:Edge, edge2:Edge, edge3:Edge) {
 			edges.push(edge1);
 			edges.push(edge2);
 			edges.push(edge3);

@@ -1,14 +1,14 @@
 package geom.shapes {
-	import geom.math.Edge;
-	import geom.math.Tri;
-	import geom.math.Vertex;
+	import geom.data.Edge;
+	import geom.data.Face;
+	import geom.data.Vertex;
 	import geom.transform.Transform;
 	import geom.transform.TransformData;
 	
 	public class Shape {
 		protected var points:Vector.<Vertex> = new Vector.<Vertex>();
 		protected var edges:Vector.<Edge> = new Vector.<Edge>();
-		protected var faces:Vector.<Tri> = new Vector.<Tri>();
+		protected var faces:Vector.<Face> = new Vector.<Face>();
 		private var pos:Transform = new Transform(0, 0, 0);
 		
 		/// only to be called from inheriting class's super
@@ -20,14 +20,14 @@ package geom.shapes {
 				edges.push(new Edge(points[line[0]], points[line[1]]));
 			
 			for each (var face:Array in data.faces)
-				faces.push(new Tri(edges[face[0]], edges[face[1]], edges[face[2]]));
+				faces.push(new Face(edges[face[0]], edges[face[1]], edges[face[2]]));
 		}
 		
 		public function numFaces():Number {
 			return faces.length;
 		}
 		
-		public function getFaceAt(index:uint):Tri {
+		public function getFaceAt(index:uint):Face {
 			return faces[index];
 		}
 		

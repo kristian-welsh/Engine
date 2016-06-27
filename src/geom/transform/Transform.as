@@ -10,10 +10,11 @@ package geom.transform {
 		public var t:Array = [0, 0, 0];
 		
 		public function Transform(x:Number = 0, y:Number = 0, z:Number = 0, parent:Transform = null) {
-			initialPos = new Matrix([x],
+			initialPos = new Matrix([
+				[x],
 				[y],
 				[z],
-				[1]);
+				[1]]);
 			this.parent = parent;
 		}
 		
@@ -42,7 +43,7 @@ package geom.transform {
 		}
 		
 		public function calcPos():Matrix {
-			var pos:Matrix = new Matrix(1, 4, 1);
+			var pos:Matrix;
 			
 			var ps:Array;
 			var pr:Array;
@@ -82,19 +83,7 @@ package geom.transform {
 				[0, 0, 1, t[2]+pt[2]],
 				[0, 0, 0, 1]]).dot(pos);
 			return pos;
-		
 		}
-		
-		public function getX():Number {
-			return calcPos().getCell(0, 0);
-		}
-		
-		public function getY():Number {
-			return calcPos().getCell(1, 0);
-		}
-		
-		public function getZ():Number {
-			return calcPos().getCell(2, 0);
-		}
+	
 	}
 }

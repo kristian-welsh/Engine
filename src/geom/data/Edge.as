@@ -1,4 +1,4 @@
-package geom.math {
+package geom.data {
 	public class Edge {
 		private var startPoint:Vertex = Vertex.NULL;
 		private var endPoint:Vertex = Vertex.NULL;
