@@ -42,6 +42,8 @@ package geom.transform {
 			translate(data.translateX, data.translateY, data.translateZ);
 		}
 		
+		// maybe I should just be adding parent coordinates at render time, or multiplying their positions?
+		// https://www.youtube.com/watch?v=3ZmqJb7J5wE
 		public function calcPos():Matrix {
 			var pos:Matrix;
 			
@@ -63,20 +65,20 @@ package geom.transform {
 				[0, 0, s[2]*ps[2], 0],
 				[0, 0, 0, 1]]).dot(initialPos);
 			pos = new Matrix([
-				[Math.cos(r[2]+pr[2]), -Math.sin(r[2]+pr[2]), 0, 0],
-				[Math.sin(r[2]+pr[2]),  Math.cos(r[2]+pr[2]), 0, 0],
-				[0                   ,  0                   , 1, 0],
-				[0                   ,  0                   , 0, 1]]).dot(pos);
+				[1, 0                   ,  0                   , 0],
+				[0, Math.cos(r[0]+pr[0]), -Math.sin(r[0]+pr[0]), 0],
+				[0, Math.sin(r[0]+pr[0]),  Math.cos(r[0]+pr[0]), 0],
+				[0, 0                   ,  0                   , 1]]).dot(pos);
 			pos = new Matrix([
 				[ Math.cos(r[1]+pr[1]), 0, Math.sin(r[1]+pr[1]), 0],
 				[ 0                   , 1, 0                   , 0],
 				[-Math.sin(r[1]+pr[1]), 0, Math.cos(r[1]+pr[1]), 0],
 				[ 0                   , 0, 0                   , 1]]).dot(pos);
 			pos = new Matrix([
-				[1, 0                   ,  0                   , 0],
-				[0, Math.cos(r[0]+pr[0]), -Math.sin(r[0]+pr[0]), 0],
-				[0, Math.sin(r[0]+pr[0]),  Math.cos(r[0]+pr[0]), 0],
-				[0, 0                   ,  0                   , 1]]).dot(pos);
+				[Math.cos(r[2]+pr[2]), -Math.sin(r[2]+pr[2]), 0, 0],
+				[Math.sin(r[2]+pr[2]),  Math.cos(r[2]+pr[2]), 0, 0],
+				[0                   ,  0                   , 1, 0],
+				[0                   ,  0                   , 0, 1]]).dot(pos);
 			pos = new Matrix([
 				[1, 0, 0, t[0]+pt[0]],
 				[0, 1, 0, t[1]+pt[1]],

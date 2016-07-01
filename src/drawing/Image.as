@@ -30,7 +30,7 @@ package drawing {
 		
 		public function drawBackground():void {
 			for (var p:int = 0; p < width * height; p++)
-				setPixel(new Point(p % width, p / width), backgroundColour);
+				setPixel(new Point(p % width - Settings.WIDTH/2, p / width - Settings.HEIGHT/2), backgroundColour);
 		}
 		
 		public function draw(shape:Shape):void {
@@ -69,7 +69,7 @@ package drawing {
 		}
 		
 		private function setPixel(point:Point, colour:uint):void {
-			bitmapData.setPixel(point.x, point.y, colour);
+			bitmapData.setPixel(point.x + Settings.WIDTH/2, point.y + Settings.HEIGHT/2, colour);
 		}
 	}
 }

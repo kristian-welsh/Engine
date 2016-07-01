@@ -12,7 +12,7 @@ package geom.projector {
 		
 		public function cast(input:Vertex):Point {
 			var pos:Matrix = projection.dot(input.getPos());
-			
+			puts(input.getPos());
 			return new Point(getX(pos), getY(pos));
 		}
 		
@@ -22,10 +22,6 @@ package geom.projector {
 		
 		private function getY(pos:Matrix):Number {
 			return pos.getCell(1, 0) / pos.getCell(3, 0);
-		}
-		
-		private function getZ(pos:Matrix):Number {
-			return pos.getCell(2, 0) / pos.getCell(3, 0);
 		}
 	}
 }
