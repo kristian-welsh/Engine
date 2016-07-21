@@ -4,15 +4,20 @@ package geom.projector {
 	import math.Matrix;
 	
 	public class Projector {
-		protected var projection:Matrix
+		private var projection:Matrix
+		private var dimentions:Matrix
 		
 		public function Projector(projection:Matrix = null) {
 			this.projection = projection || Matrix.identity(4);
+			this.dimentions = new Matrix(
+				[Settings.WIDTH],
+				[Settings.WIDTH],//using height here makes cubes rectangles, i think i misundersnd this.
+				[1],
+				[1]);
 		}
 		
 		public function cast(input:Vertex):Point {
-			var pos:Matrix = projection.dot(input.getPos());
-			puts(input.getPos());
+			var pos:Matrix = dimentions.multiply(projection.dot(input.getPos()));
 			return new Point(getX(pos), getY(pos));
 		}
 		
