@@ -1,4 +1,5 @@
 package geom.data {
+	import flash.geom.Point;
 	import geom.transform.Transform;
 	import math.Matrix;
 	
@@ -14,6 +15,10 @@ package geom.data {
 		
 		public function getPos():Matrix {
 			return transform.calcPos();
+		}
+		
+		public function toPoint():Point {
+			return new Point(getPos().getCell(0, 0), getPos().getCell(1, 0));
 		}
 	}
 }

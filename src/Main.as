@@ -3,6 +3,7 @@ package {
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.TimerEvent;
+	import flash.geom.Point;
 	import flash.utils.Timer;
 	import geom.projector.PerspectiveProjector;
 	import geom.projector.Projector;
@@ -16,17 +17,14 @@ package {
 		private var image:Image;
 		
 		private var cubeTransform:TransformData = new TransformData(0, 0, -200, 50, 50, 50, 0, 0, 0);
-		private var change:TransformData = new TransformData(5, 0, 0, 1, 1, 1, 0, 0, 0);
+		private var change:TransformData = new TransformData(0, 0, 0, 1, 1, 1, rads(20), 0, 0);
 		private var projector:Projector = new PerspectiveProjector();
-		//private var projector:Projector = new Projector();
 		/*
 		   private var cubeTransform:TransformData = new TransformData(300, 300, 0, 200, 200, 100, 0, 0, 0);
 		   private var change:TransformData = new TransformData(5, 10, 0, 1, 1.05, 1, 0, 2, 0);
-		   private var projector:Projector = new Projector();
 		 */ /*
 		   private var cubeTransform:TransformData = new TransformData(300, 300, 0, 2000, 2000, 100, 0, 0, 0);
 		   private var change:TransformData = new TransformData(10000, 10000, 0, 1, 1, 1, 0, 0, 1);
-		   private var projector:Projector = new PerspectiveProjector();
 		 */
 		private var cube:Shape = new Shape(new CubeData());
 		private var timer:Timer = new Timer(100);
