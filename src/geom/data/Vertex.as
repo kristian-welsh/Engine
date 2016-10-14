@@ -20,5 +20,17 @@ package geom.data {
 		public function toPoint():Point {
 			return new Point(getPos().getCell(0, 0), getPos().getCell(1, 0));
 		}
+		
+		public function get x():Number {
+			return getPos().getCell(0, 0);
+		}
+		
+		public function get y():Number {
+			return getPos().getCell(1, 0);
+		}
+		
+		public function get z():Number {
+			return getPos().getCell(2, 0);
+		}
 	}
 }

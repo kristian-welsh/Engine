@@ -12,13 +12,13 @@ package geom.projector {
 			this.dimentions = new Matrix(
 				[Settings.WIDTH],
 				[Settings.WIDTH],//using height here makes cubes rectangles, i think i misundersnd this.
-				[1],
+				[1], // maybe should be f-n?
 				[1]);
 		}
 		
-		public function cast(input:Vertex):Point {
+		public function cast(input:Vertex):Vertex {
 			var pos:Matrix = dimentions.multiply(projection.dot(input.getPos()));
-			return new Point(getX(pos), getY(pos));
+			return new Vertex(getX(pos), getY(pos), getZ(pos));
 		}
 		
 		private function getX(pos:Matrix):Number {
@@ -27,6 +27,10 @@ package geom.projector {
 		
 		private function getY(pos:Matrix):Number {
 			return pos.getCell(1, 0) / pos.getCell(3, 0);
+		}
+		
+		private function getZ(pos:Matrix):Number {
+			return pos.getCell(2, 0) / pos.getCell(3, 0);
 		}
 	}
 }
