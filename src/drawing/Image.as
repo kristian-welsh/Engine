@@ -45,41 +45,6 @@ package drawing {
 		
 		private function drawFace(shape:Shape, faceIndex:uint):void {
 			var face:Face = shape.getFaceAt(faceIndex);
-			
-			var v0:Point = projector.cast(face.getVerteces()[0]);
-			var v1:Point = projector.cast(face.getVerteces()[1]);
-			var v2:Point = projector.cast(face.getVerteces()[2]);
-			
-			var minX:Number = Math.min(v0.x, v1.x, v2.x);
-			var minY:Number = Math.min(v0.y, v1.y, v2.y);
-			var maxX:Number = Math.max(v0.x, v1.x, v2.x);
-			var maxY:Number = Math.max(v0.y, v1.y, v2.y);
-			
-			minX = Math.max(minX, -Settings.WIDTH/2);
-			minY = Math.max(minY, -Settings.HEIGHT/2);
-			maxX = Math.min(maxX, Settings.WIDTH/2);
-			maxY = Math.min(maxY, Settings.HEIGHT/2);
-			
-			var p:Point = new Point();
-			for (p.x = minX; p.x < maxX; p.x++) {
-				for (p.y = minY; p.y < maxY; p.y++) {
-					
-					var w0:int = orientation(v1, v2, p);
-					var w1:int = orientation(v2, v0, p);
-					var w2:int = orientation(v0, v1, p);
-					
-					if (orientation(v0, v1, v2) < 0) {
-						if (w0 < 0 && w1 < 0 && w2 < 0) {
-							drawPoint(p);
-						}
-					} else if (orientation(v0, v1, v2) > 0) {
-						if (w0 > 0 && w1 > 0 && w2 > 0) {
-							drawPoint(p);
-						}
-					}
-				}
-			}
-			
 			drawEdge(face.getEdgeAt(0));
 			drawEdge(face.getEdgeAt(1));
 			drawEdge(face.getEdgeAt(2));
@@ -99,7 +64,7 @@ package drawing {
 			var curPoint:Point;
 			for (var i:uint = 0; i <= stepSize; i++) {
 				curPoint = new Point(start.x + diffX * i / stepSize, start.y + diffY * i / stepSize);
-				drawPoint(curPoint, Colours.BLUE)
+				drawPoint(curPoint, Colours.WHITE)
 			}
 		}
 		

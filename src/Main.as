@@ -16,18 +16,12 @@ package {
 		
 		private var image:Image;
 		
-		private var cubeTransform:TransformData = new TransformData(0, 0, -200, 50, 50, 50, 0, 0, 0);
-		private var change:TransformData = new TransformData(0, 0, 0, 1, 1, 1, rads(20), 0, 0);
+		private var cubeTransform:TransformData = new TransformData(0, 0, -300, 50, 50, 50, 0, 0, 0);
+		private var change:TransformData = new TransformData(0, 0, 0, 1, 1, 1, rads(5), rads(10), rads(10));
 		private var projector:Projector = new PerspectiveProjector();
-		/*
-		   private var cubeTransform:TransformData = new TransformData(300, 300, 0, 200, 200, 100, 0, 0, 0);
-		   private var change:TransformData = new TransformData(5, 10, 0, 1, 1.05, 1, 0, 2, 0);
-		 */ /*
-		   private var cubeTransform:TransformData = new TransformData(300, 300, 0, 2000, 2000, 100, 0, 0, 0);
-		   private var change:TransformData = new TransformData(10000, 10000, 0, 1, 1, 1, 0, 0, 1);
-		 */
+		
 		private var cube:Shape = new Shape(new CubeData());
-		private var timer:Timer = new Timer(100);
+		private var timer:Timer = new Timer(1);
 		
 		public function Main() {
 			if (stage)
